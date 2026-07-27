@@ -137,6 +137,7 @@ public class DragonUIEventHandler {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             DragonUIKeybinds.handleKeybinds();
+            com.leon.saintsdragons.client.input.DragonSpawnMenuKeybind.tick();
             meleeModeNotification.tick();
             fireballChargeIndicator.tick();
             raevyxBeamMeterIndicator.tick();

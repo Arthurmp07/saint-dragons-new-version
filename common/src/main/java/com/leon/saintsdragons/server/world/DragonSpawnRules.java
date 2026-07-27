@@ -1,9 +1,12 @@
 package com.leon.saintsdragons.server.world;
 
+import com.leon.saintsdragons.server.data.DragonSpawnPreferenceSavedData;
 import com.leon.saintsdragons.server.entity.base.DragonEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
@@ -68,6 +71,39 @@ public final class DragonSpawnRules {
         );
         int nearbyDragons = serverLevel.getEntitiesOfClass(DragonEntity.class, anyDragonBounds, dragon -> dragon.isAlive() && !dragon.isTame()).size();
         return nearbyDragons <= MAX_NEARBY_TOTAL_DRAGONS;
+    }
+
+    public static boolean passesPlayerPreferenceCheck(LevelAccessor level,
+                                                        MobSpawnType spawnType,
+                                                        BlockPos pos,
+                                                        RandomSource random) {
+        if (!isNaturalWildSpawn(spawnType)) {
+            return true;
+        }
+        if (!(level instanceof ServerLevelAccessor serverLevelAccessor)) {
+            return true;
+        }
+
+        var serverLevel = serverLevelAccessor.getLevel();
+        Player nearest = serverLevel.getNearestPlayer(
+                pos.getX() + 0.5D,
+                pos.getY() + 0.5D,
+                pos.getZ() + 0.5D,
+                -1.0D,
+                false
+        );
+        if (nearest == null) {
+            return true;
+        }
+
+        float multiplier = DragonSpawnPreferenceSavedData.get(serverLevel).getMultiplier(nearest.getUUID());
+        if (multiplier >= 1.0f) {
+            return true;
+        }
+        if (multiplier <= 0.0f) {
+            return false;
+        }
+        return random.nextFloat() < multiplier;
     }
 
     public static boolean isNaturalWildSpawn(MobSpawnType spawnType) {

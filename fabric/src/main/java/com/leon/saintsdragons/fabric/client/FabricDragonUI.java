@@ -1,5 +1,6 @@
 package com.leon.saintsdragons.fabric.client;
 
+import com.leon.saintsdragons.client.input.DragonSpawnMenuKeybind;
 import com.leon.saintsdragons.client.ui.DragonRideHealthBar;
 import com.leon.saintsdragons.client.ui.DragonDiveSpeedLineOverlay;
 import com.leon.saintsdragons.client.ui.DragonUIRegistry;
@@ -49,6 +50,7 @@ public final class FabricDragonUI {
 
     public static void init() {
         KeyBindingHelper.registerKeyBinding(TOGGLE_DRAGON_UI);
+        DragonSpawnMenuKeybind.registerKeys(KeyBindingHelper::registerKeyBinding);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player == null) {
@@ -64,6 +66,8 @@ public final class FabricDragonUI {
                 // Clear queued clicks so the key isn't processed when returning to game
                 TOGGLE_DRAGON_UI.consumeClick();
             }
+
+            DragonSpawnMenuKeybind.tick();
 
             // Tick all UI elements for smooth animations
             meleeModeNotification.tick();

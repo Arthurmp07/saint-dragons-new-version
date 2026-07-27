@@ -15,6 +15,7 @@ import com.leon.saintsdragons.server.entity.dragons.volitans.Volitans;
 import com.leon.saintsdragons.server.entity.npc.IvyTheDragonMerchant;
 import com.leon.saintsdragons.server.entity.dragons.Mossback;
 import com.leon.saintsdragons.server.entity.otheranimals.Moop;
+import com.leon.saintsdragons.server.world.DragonSpawnRules;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
@@ -59,43 +60,43 @@ public final class CommonModEvents {
                 ModEntities.RAEVYX.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Raevyx::canSpawnHere
+                withPlayerPreference(Raevyx::canSpawnHere)
         );
         registrar.register(
                 ModEntities.STEGONAUT.get(),
                 SpawnPlacements.Type.NO_RESTRICTIONS,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Stegonaut::canSpawnHere
+                withPlayerPreference(Stegonaut::canSpawnHere)
         );
         registrar.register(
                 ModEntities.CINDERVANE.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Cindervane::canSpawnHere
+                withPlayerPreference(Cindervane::canSpawnHere)
         );
         registrar.register(
                 ModEntities.VARASUCHUS.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Varasuchus::canSpawnHere
+                withPlayerPreference(Varasuchus::canSpawnHere)
         );
         registrar.register(
                 ModEntities.IGNIVORUS.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Ignivorus::canSpawnHere
+                withPlayerPreference(Ignivorus::canSpawnHere)
         );
         registrar.register(
                 ModEntities.VOLITANS.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Volitans::canSpawnHere
+                withPlayerPreference(Volitans::canSpawnHere)
         );
         registrar.register(
                 ModEntities.NULLJAW.get(),
                 SpawnPlacements.Type.NO_RESTRICTIONS,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Nulljaw::canSpawnHere
+                withPlayerPreference(Nulljaw::canSpawnHere)
         );
         registrar.register(
                 ModEntities.MOOP.get(),
@@ -109,6 +110,13 @@ public final class CommonModEvents {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Mossback::canSpawnHere
         );
+    }
+
+    private static <T extends Mob> SpawnPlacements.SpawnPredicate<T> withPlayerPreference(
+            SpawnPlacements.SpawnPredicate<T> predicate) {
+        return (type, level, spawnType, pos, random) ->
+                predicate.test(type, level, spawnType, pos, random)
+                        && DragonSpawnRules.passesPlayerPreferenceCheck(level, spawnType, pos, random);
     }
 
     public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {

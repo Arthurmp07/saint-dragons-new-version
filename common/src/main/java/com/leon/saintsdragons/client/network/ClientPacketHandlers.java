@@ -1,10 +1,12 @@
 package com.leon.saintsdragons.client.network;
 
 import com.leon.saintsdragons.sound.client.DragonSoundRuntime;
+import com.leon.saintsdragons.client.ui.DragonSpawnChanceScreen;
 import com.leon.saintsdragons.client.ui.DragonUIRegistry;
 import com.leon.saintsdragons.client.ui.DraconicCodexScreen;
 import com.leon.saintsdragons.client.ui.codex.CodexDragonEntry;
 import com.leon.saintsdragons.common.network.MessageDraconicCodexList;
+import com.leon.saintsdragons.common.network.MessageDragonSpawnChanceSync;
 import com.leon.saintsdragons.common.network.MessageGlobalAllyDelta;
 import com.leon.saintsdragons.common.network.MessageGlobalAllyList;
 import com.leon.saintsdragons.common.network.MessageDragonAbilityDebugBox;
@@ -84,6 +86,13 @@ public final class ClientPacketHandlers {
                 message.pitch(),
                 message.durationTicks()
         );
+    }
+
+    public static void handleDragonSpawnChanceSync(MessageDragonSpawnChanceSync message) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.screen instanceof DragonSpawnChanceScreen screen) {
+            screen.applyServerValue(message.multiplier());
+        }
     }
 
     public static void handleAbilityDebugBox(MessageDragonAbilityDebugBox message) {

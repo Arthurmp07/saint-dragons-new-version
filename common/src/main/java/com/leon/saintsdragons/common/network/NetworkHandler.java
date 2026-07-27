@@ -65,6 +65,22 @@ public final class NetworkHandler {
                 MessageGlobalAllyManagement::handle
         );
 
+        NETWORK.registerServerbound(
+                MessageDragonSpawnChanceRequest.class,
+                id("dragon_spawn_chance_request"),
+                MessageDragonSpawnChanceRequest::encode,
+                MessageDragonSpawnChanceRequest::decode,
+                MessageDragonSpawnChanceRequest::handle
+        );
+
+        NETWORK.registerServerbound(
+                MessageDragonSpawnChanceSet.class,
+                id("dragon_spawn_chance_set"),
+                MessageDragonSpawnChanceSet::encode,
+                MessageDragonSpawnChanceSet::decode,
+                MessageDragonSpawnChanceSet::handle
+        );
+
         NETWORK.registerClientbound(
                 MessageDraconicCodexList.class,
                 id("draconic_codex_list"),
@@ -111,6 +127,14 @@ public final class NetworkHandler {
                 MessageDragonAbilityDebugBox::encode,
                 MessageDragonAbilityDebugBox::decode,
                 MessageDragonAbilityDebugBox::handle
+        );
+
+        NETWORK.registerClientbound(
+                MessageDragonSpawnChanceSync.class,
+                id("dragon_spawn_chance_sync"),
+                MessageDragonSpawnChanceSync::encode,
+                MessageDragonSpawnChanceSync::decode,
+                MessageDragonSpawnChanceSync::handle
         );
     }
 

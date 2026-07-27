@@ -482,6 +482,12 @@
   "key.saintsdragons.toggle_melee": "Toggle Melee Mode",
   "key.saintsdragons.flex": "Flex",
   "key.saintsdragons.toggle_dragon_ui": "Toggle Dragon UI",
+  "key.saintsdragons.open_spawn_menu": "Open Dragon Spawn Menu",
+  "saintsdragons.spawn_chance_screen.title": "Dragon Spawn Menu",
+  "saintsdragons.spawn_chance_screen.subtitle": "Lower this to reduce how often dragons spawn near you",
+  "saintsdragons.spawn_chance_screen.loading": "Loading your current setting...",
+  "saintsdragons.spawn_chance_screen.confirm": "Confirm",
+  "saintsdragons.spawn_chance_screen.percent": "Dragon spawn chance: %s%%",
   "key.saintsdragons.toggle_ability_debug": "Toggle Ability Debug",
 
   "commands.dragonally.description": "Manage player allies",
